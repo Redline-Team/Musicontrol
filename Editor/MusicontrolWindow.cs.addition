@@ -1,0 +1,60 @@
+        /// <summary>
+        /// Draws the manual connection options UI.
+        /// </summary>
+        private void DrawManualConnectionOptions()
+        {
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            
+            _showManualConnectionOptions = EditorGUILayout.Foldout(_showManualConnectionOptions, "Manual Connection Options (for Linux/Wayland)", true);
+            
+            if (_showManualConnectionOptions)
+            {
+                EditorGUILayout.HelpBox("If automatic detection doesn't work (common on Linux with Wayland), you can manually connect to a running music player.", MessageType.Info);
+                
+                EditorGUILayout.Space(5);
+                
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Player Type:", GUILayout.Width(100));
+                _selectedPlayerTypeIndex = EditorGUILayout.Popup(_selectedPlayerTypeIndex, _availablePlayerTypes);
+                EditorGUILayout.EndHorizontal();
+                
+                EditorGUILayout.Space(5);
+                
+                if (GUILayout.Button("Connect Manually"))
+                {
+                    ConnectManually(_availablePlayerTypes[_selectedPlayerTypeIndex]);
+                }
+            }
+            
+            EditorGUILayout.EndVertical();
+        }
+        
+        /// <summary>
+        /// Connects manually to a music player.
+        /// </summary>
+        /// <param name="playerType">The type of music player to connect to.</param>
+        private void ConnectManually(string playerType)
+        {
+            try
+            {
+                Debug.Log($"Manually connecting to {playerType}...");
+                
+                // Create a manual music player
+                var manualPlayer = new ManualMusicPlayer(playerType);
+                
+                // Add it to the available players list
+                _availablePlayers.Add(manualPlayer);
+                
+                // Select the new player
+                _selectedPlayerIndex = _availablePlayers.Count - 1;
+                _selectedPlayer = manualPlayer;
+                _volumeSliderValue = _selectedPlayer.GetVolume();
+                
+                Debug.Log($"Successfully connected to {playerType} manually.");
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"Error connecting to {playerType} manually: {ex.Message}");
+                EditorUtility.DisplayDialog("Connection Error", $"Failed to connect to {playerType}. Make sure it is running and try again.", "OK");
+            }
+        }
