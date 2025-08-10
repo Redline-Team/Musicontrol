@@ -1,3 +1,10 @@
+<details>
+<summary><b>⚠️ SCAM ALERT ⚠️</b></summary>
+This is a Free and Open Source Software  
+  
+If you bought this anywhere else or did not get it from here or our VPM then you have been scammed!  
+I will not charge people for FOSS software  
+</details>
 # Musicontrol
 
 Musicontrol is a Unity Editor plugin that allows you to control your music players directly from within the Unity Editor. It supports Windows, macOS, and Linux platforms and works with popular music players.
